@@ -71,6 +71,6 @@ Measurement notes:
 
 ## Caveats
 
-- React Router RSC's article route produced one failed `oha` run when measured immediately after the homepage in the same server process. A fresh rerun of the article route succeeded at 100% HTTP success, but the generated SSR server still logged `TypeError: Invalid state: Unable to enqueue` after the test deadline. The successful rerun is recorded above.
+- React Router RSC's article route repeatedly triggers a generated SSR stream failure under the documented `oha -z 30s -c 10` load. In a follow-up five-run audit against a fresh production server, the first article-route run returned 100% HTTP success and then logged `TypeError: Invalid state: Unable to enqueue`; subsequent runs failed with connection refused because the server was no longer accepting connections. The successful first-run timing is recorded above, but the route has a repeatable runtime stability caveat.
 - HTML parity checks confirmed the same semantic homepage shape in all apps: one `h1`, four story `article` elements, one `nav`, one newsletter `form`, three buttons, and four images. Article pages each render one `h1`, one `article`, one `nav`, two buttons, and one image.
 - Extra repeated text in Next.js and React Router RSC HTML comes from serialized framework/RSC payload data rather than additional semantic content.

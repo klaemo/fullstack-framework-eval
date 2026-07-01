@@ -430,7 +430,7 @@ Phase 5 notes:
 - Production route HTML and browser measurements were collected from local production servers on 2026-07-01 using Node.js `v24.18.0`.
 - The same semantic content hierarchy was verified across all homepages and article pages; extra repeated strings in Next.js and React Router RSC output come from serialized framework payloads rather than extra visible content.
 - Astro rendered the benchmark routes with no external client JavaScript. Hono emitted only the 601-byte hand-written client interaction bundle. React Router, React Router RSC, and Next.js emitted their framework/runtime chunks as listed in `spec/benchmark-methodology.md`.
-- React Router RSC's article route had one failed `oha` pass and logged a generated SSR stream `TypeError: Invalid state: Unable to enqueue` after a successful rerun. The successful rerun is recorded, with the caveat preserved in the methodology.
+- React Router RSC's article route has a repeatable runtime stability caveat. A follow-up five-run audit against a fresh production server reproduced `TypeError: Invalid state: Unable to enqueue` after the first successful article-route `oha` pass, and subsequent passes failed with connection refused because the server was no longer accepting connections.
 
 ## Verification
 - Astro install/build: `cd astro && npm install && npm run build`

@@ -24,6 +24,7 @@ Measurement notes:
 - Browser measurements used `agent-browser vitals`, Headless Chrome, viewport `1440 x 1000`, a fresh browser session per run, no artificial throttling, and 3 first-load runs per homepage. The table reports medians.
 - INP is not available from these synthetic page loads because there is no user interaction during measurement.
 - The initial JavaScript byte column is route-specific in the table below. The headline KPI remains the `/` route.
+- A follow-up server-timing rerun with Node.js `v26.4.0` improved successful `oha` throughput by 4.0% min, 19.4% average, and 40.6% max across 11 route measurements. The React Router RSC article route was excluded from that summary because it failed in the full route-order run after the server logged `TypeError: Invalid state: Unable to enqueue`.
 
 ## Interpreting The Results
 

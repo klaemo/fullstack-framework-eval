@@ -10,7 +10,7 @@ This repository compares five independent SSR implementations of the same news-s
 
 Each app renders the same homepage at `/` and the same article route at `/articles/cities-prepare-hotter-denser-decade`. The benchmark compares build time, served HTML size, initial JavaScript size, local production render timing, browser Web Vitals, and qualitative framework ergonomics.
 
-See [spec/benchmark-methodology.md](spec/benchmark-methodology.md) for the measurement commands and collection rules.
+See [spec/benchmark-methodology.md](spec/benchmark-methodology.md) for the measurement commands and collection rules. See [dx.md](dx.md) for a developer experience and ecosystem analysis focused on extending these setups.
 
 ## Results
 

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Dense city skyline with transit lines at sunrise</title>
+  <desc id="desc">Editorial benchmark image showing a dense city skyline with elevated transit lines under a warm sunrise.</desc>
+  <rect width="1200" height="720" fill="#f4f0e8"/>
+  <rect y="438" width="1200" height="282" fill="#1f2937"/>
+  <circle cx="238" cy="172" r="104" fill="#f97316"/>
+  <path d="M0 411 C170 353 279 377 413 329 C561 276 682 323 812 270 C971 206 1055 264 1200 203 L1200 438 L0 438 Z" fill="#c7d2fe"/>
+  <g fill="#111827">
+    <rect x="112" y="252" width="86" height="186"/>
+    <rect x="234" y="214" width="118" height="224"/>
+    <rect x="389" y="276" width="72" height="162"/>
+    <rect x="506" y="186" width="146" height="252"/>
+    <rect x="693" y="242" width="94" height="196"/>
+    <rect x="824" y="160" width="126" height="278"/>
+    <rect x="996" y="228" width="92" height="210"/>
+  </g>
+  <g stroke="#facc15" stroke-width="12" stroke-linecap="round" fill="none">
+    <path d="M80 528 C272 458 438 596 634 519 S936 464 1124 554"/>
+    <path d="M104 610 C284 558 428 648 612 598 S897 536 1094 634"/>
+  </g>
+</svg>

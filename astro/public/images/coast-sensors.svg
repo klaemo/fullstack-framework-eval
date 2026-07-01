@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img" aria-labelledby="title desc">
+  <title id="title">Ocean sensor buoys near a warm coastline</title>
+  <desc id="desc">Editorial benchmark image showing coastal water, sensor buoys, and a heat-colored shoreline.</desc>
+  <rect width="900" height="540" fill="#ccfbf1"/>
+  <path d="M0 286 C156 232 240 354 382 298 C527 239 632 316 900 238 L900 540 L0 540 Z" fill="#0f766e"/>
+  <path d="M0 210 C167 158 288 245 430 188 C570 132 697 178 900 128 L900 0 L0 0 Z" fill="#fbbf24"/>
+  <g fill="#f8fafc" stroke="#0f172a" stroke-width="8">
+    <circle cx="236" cy="344" r="38"/>
+    <circle cx="518" cy="304" r="34"/>
+    <circle cx="710" cy="366" r="30"/>
+  </g>
+  <g stroke="#0f172a" stroke-width="8" stroke-linecap="round">
+    <path d="M236 382 L236 454"/>
+    <path d="M518 338 L518 430"/>
+    <path d="M710 396 L710 458"/>
+  </g>
+</svg>

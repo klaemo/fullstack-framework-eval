@@ -272,13 +272,13 @@ export function renderViteAssets() {
 ```
 
 ### Phase 2: Add local benchmark content and assets
-- [ ] Create the same local content data in each app, using framework-native files rather than a shared package.
-- [ ] Add a tiny async data boundary in each app without reading from the filesystem, such as awaiting an in-memory promise before returning homepage or article data.
-- [ ] Add the same local benchmark images to each app's public asset directory.
-- [ ] Define image dimensions and alt text consistently across implementations.
-- [ ] Remove unused starter welcome components and starter image assets only when no longer referenced.
-- [ ] Keep the page route at `/` for every app.
-- [ ] Add the same article detail route at `/articles/:slug` or the closest framework-native equivalent for every app.
+- [x] Create the same local content data in each app, using framework-native files rather than a shared package.
+- [x] Add a tiny async data boundary in each app without reading from the filesystem, such as awaiting an in-memory promise before returning homepage or article data.
+- [x] Add the same local benchmark images to each app's public asset directory.
+- [x] Define image dimensions and alt text consistently across implementations.
+- [x] Remove unused starter welcome components and starter image assets only when no longer referenced. Starter components are still referenced by the temporary home routes and should be removed in Phase 3.
+- [x] Keep the page route at `/` for every app.
+- [x] Add the same article detail route at `/articles/:slug` or the closest framework-native equivalent for every app.
 
 Example duplicated content module:
 

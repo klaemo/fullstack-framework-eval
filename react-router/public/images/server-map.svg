@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract server racks connected by bright routing lines</title>
+  <desc id="desc">Editorial benchmark image showing server racks and network routes for a technology story.</desc>
+  <rect width="900" height="540" fill="#e0f2fe"/>
+  <g fill="#0f172a">
+    <rect x="108" y="92" width="150" height="356" rx="14"/>
+    <rect x="374" y="68" width="150" height="404" rx="14"/>
+    <rect x="640" y="112" width="150" height="316" rx="14"/>
+  </g>
+  <g fill="#38bdf8">
+    <rect x="132" y="126" width="102" height="18" rx="9"/>
+    <rect x="132" y="174" width="102" height="18" rx="9"/>
+    <rect x="398" y="126" width="102" height="18" rx="9"/>
+    <rect x="398" y="174" width="102" height="18" rx="9"/>
+    <rect x="664" y="158" width="102" height="18" rx="9"/>
+    <rect x="664" y="206" width="102" height="18" rx="9"/>
+  </g>
+  <g stroke="#f97316" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M258 214 C326 174 320 354 374 310"/>
+    <path d="M524 190 C590 126 598 322 640 286"/>
+    <path d="M258 366 C338 424 314 132 374 168"/>
+    <path d="M524 386 C594 438 606 166 640 192"/>
+  </g>
+</svg>

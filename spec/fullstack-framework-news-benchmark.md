@@ -30,6 +30,8 @@ The repository currently contains separate app directories rather than a workspa
 
 The current apps are mostly starter pages. That gives a clean baseline for replacing starter content with consistent benchmark pages. Because the main numeric KPIs are initial-route JavaScript bytes, served HTML bytes, server render time, cold-cache production build time, and browser-measured Core Web Vitals, the benchmark should avoid accidental shared infrastructure and avoid framework-unrepresentative client JavaScript.
 
+Use Node.js v24 for all installs, builds, local production servers, and benchmark runs. The current local runtime used while preparing the plan is `v24.18.0`; record the exact `node --version` output again in `spec/benchmark-methodology.md` when collecting final benchmark numbers.
+
 ## Approach
 Use the same page content model in each project, copied locally into each app as plain framework-native data. The repeated structure should make output comparable while preserving independence.
 
@@ -143,14 +145,15 @@ Keep the interactions intentionally small so initial-route JavaScript bytes refl
 
 ## Implementation plan
 ### Phase 1: Normalize project independence and Tailwind availability
-- [ ] Confirm each app installs and builds from its own folder with its own `package-lock.json`.
-- [ ] Configure every app so benchmark routes use SSR/server output rather than SSG/prerendered static output.
-- [ ] Add Tailwind v4 to `astro` using Astro's current recommended Tailwind path.
-- [ ] Add Tailwind v4 to `hono-jsx` through Vite so CSS and client JavaScript are bundled together.
-- [ ] Use `@hono/vite-dev-server` for the Hono development server instead of manually running separate Vite and Hono watchers.
-- [ ] Use `@hono/vite-build/node` for the Hono production server build and a separate Vite client build for browser assets.
-- [ ] Verify `nextjs`, `react-router`, and `react-router-rsc` already compile Tailwind classes from their app source files.
-- [ ] Avoid adding root-level workspace dependencies or cross-project imports.
+- [x] Confirm each app installs and builds from its own folder with its own `package-lock.json`.
+- [x] Configure every app so benchmark routes use SSR/server output rather than SSG/prerendered static output.
+- [x] Add Tailwind v4 to `astro` using Astro's current recommended Tailwind path.
+- [x] Add Tailwind v4 to `hono-jsx` through Vite so CSS and client JavaScript are bundled together.
+- [x] Use `@hono/vite-dev-server` for the Hono development server instead of manually running separate Vite and Hono watchers.
+- [x] Use `@hono/vite-build/node` for the Hono production server build and a separate Vite client build for browser assets.
+- [x] Verify `nextjs`, `react-router`, and `react-router-rsc` already compile Tailwind classes from their app source files.
+- [x] Avoid adding root-level workspace dependencies or cross-project imports.
+- [x] Document Node.js v24 as the benchmark runtime baseline and set package engines accordingly.
 
 Astro Tailwind target:
 
@@ -361,6 +364,7 @@ serve({ fetch: app.fetch, port: 3000 });
 
 ### Phase 4: Add benchmark measurement scripts and documentation
 - [ ] Add a `spec/benchmark-methodology.md` document with exact per-project build and start commands.
+- [ ] Record the exact Node.js version used for benchmark collection with `node --version`; expected major version is Node.js v24.
 - [ ] Document initial-route JavaScript measurement as uncompressed filesystem bytes for the JavaScript needed by `/`.
 - [ ] Document served HTML measurement as uncompressed response-body bytes for `/` from the local production server.
 - [ ] Document cold-cache production build time measurement for each framework, including the exact cache/build directories removed before timing.

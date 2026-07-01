@@ -23,6 +23,16 @@ Measurement notes:
 - Browser measurements used headless Chrome, viewport `1440 x 1000`, cache disabled through DevTools, no artificial throttling, and three first-load runs per homepage. The table reports medians.
 - INP is not available from these synthetic page loads because there is no user interaction during measurement.
 - The initial JavaScript byte column is route-specific in the table below. The headline KPI remains the `/` route.
+- Astro shows `0.0 KB` initial JS because this table counts external JavaScript files. Astro's small menu/save/newsletter script is emitted inline in the HTML, about `0.6 KB` on the homepage.
+- React Router RSC's larger HTML response comes from embedded React Flight data. Standard React Router mostly sends normal HTML plus a compact loader-data stream; RSC sends normal HTML plus serialized RSC/Flight protocol data. In this small benchmark, that protocol overhead is larger than any savings from server components.
+
+## Interpreting The Results
+
+Astro's `0.0 KB` initial JavaScript result means no external route JavaScript chunk was emitted for the benchmark page. It does not mean the page has no client-side behavior. The small menu, save-story, and newsletter interactions are emitted as an inline script in the HTML.
+
+React Router RSC's HTML payload is larger than standard React Router because it embeds React Flight data alongside the rendered HTML. Standard React Router mostly sends HTML plus a compact loader-data stream. RSC sends HTML plus serialized server component tree data, client component references, module IDs, props, class names, and text needed by the client runtime. The upside is that server components do not hydrate like normal client React components; only explicit client components should hydrate. In this small page, that hydration saving is not large enough to outweigh the Flight/runtime overhead.
+
+RSC tends to pay off when it keeps substantial code or data work out of the browser: dependency-heavy rendering, markdown or CMS shaping, dashboards with many server-rendered panels, permission-aware views, server-only data access, or large component trees where only small leaves are interactive. In this benchmark the page is small and the interactive code is already tiny, so the Flight protocol overhead has little useful work to amortize.
 
 ## Build Timing
 

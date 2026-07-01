@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #f7f3ea;
+  --foreground: #161616;
+  --paper: #f7f3ea;
+  --ink: #161616;
+  --muted: #5e625f;
+  --rule: #c8c0b3;
+  --accent: #b3261e;
+  --steel: #324b5c;
 }
 
 @theme inline {
@@ -12,15 +19,13 @@
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

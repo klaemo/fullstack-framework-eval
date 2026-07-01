@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ArticleView } from "../../components/ArticleView";
+import { NewsChrome } from "../../components/NewsChrome";
 import { getArticle } from "../../data/news";
 
 export const dynamic = "force-dynamic";
@@ -17,22 +18,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   return (
-    <main>
-      <p>{article.section}</p>
-      <h1>{article.title}</h1>
-      <p>{article.dek}</p>
-      <Image
-        src={article.image.src}
-        alt={article.image.alt}
-        width={article.image.width}
-        height={article.image.height}
-      />
-      <p>
-        {article.byline} - {article.readTime}
-      </p>
-      {article.body.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
-      ))}
-    </main>
+    <NewsChrome>
+      <ArticleView article={article} />
+    </NewsChrome>
   );
 }

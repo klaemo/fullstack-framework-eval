@@ -1,5 +1,6 @@
 ---
 import { getArticle } from "../../data/news";
+import NewsChrome from "../../components/NewsChrome.astro";
 import Layout from "../../layouts/Layout.astro";
 
 const { slug } = Astro.params;
@@ -10,14 +11,22 @@ if (!article) {
 }
 ---
 
-<Layout>
-  <main>
-    <p>{article.section}</p>
-    <h1>{article.title}</h1>
-    <p>{article.dek}</p>
-    <img src={article.image.src} alt={article.image.alt} width={article.image.width} height={article.image.height} />
-    <p>{article.byline} - {article.readTime}</p>
-    {article.body.map((paragraph) => <p>{paragraph}</p>)}
-  </main>
+<Layout title={`${article.title} | Framework Gazette`} description={article.dek}>
+  <NewsChrome>
+    <main class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+      <p class="text-xs font-black uppercase tracking-[0.2em] text-[var(--accent)]">{article.section}</p>
+      <h1 class="mt-4 font-serif text-5xl font-black leading-none sm:text-7xl">{article.title}</h1>
+      <p class="mt-5 text-2xl leading-9 text-[var(--muted)]">{article.dek}</p>
+      <div class="mt-6 flex flex-wrap items-center gap-3 border-y border-[var(--rule)] py-3 text-sm font-bold text-[var(--steel)]">
+        <span>{article.byline}</span>
+        <span class="h-1 w-1 bg-[var(--muted)]"></span>
+        <span>{article.readTime}</span>
+        <button type="button" class="border border-[var(--ink)] px-3 py-2 text-xs font-black uppercase tracking-[0.16em]" data-save-story data-story-id={article.slug}>Save</button>
+      </div>
+      <img src={article.image.src} alt={article.image.alt} width={article.image.width} height={article.image.height} class="mt-8 aspect-[5/3] w-full border border-[var(--rule)] object-cover" />
+      <article class="prose prose-zinc mt-8 max-w-none text-xl leading-9">
+        {article.body.map((paragraph) => <p>{paragraph}</p>)}
+      </article>
+    </main>
+  </NewsChrome>
 </Layout>
-

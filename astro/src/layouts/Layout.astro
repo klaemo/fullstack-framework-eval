@@ -1,3 +1,9 @@
+---
+import "../styles/global.css";
+
+const { title = "Framework Gazette", description = "SSR benchmark news edition" } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,18 +12,32 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
+		<script>
+			const menuButton = document.querySelector("[data-menu-toggle]");
+			const menuPanel = document.querySelector("[data-menu-panel]");
+			menuButton?.addEventListener("click", () => {
+				const expanded = menuButton.getAttribute("aria-expanded") === "true";
+				menuButton.setAttribute("aria-expanded", String(!expanded));
+				menuPanel?.classList.toggle("hidden", expanded);
+			});
+
+			document.querySelectorAll("[data-save-story]").forEach((button) => {
+				button.addEventListener("click", () => {
+					const saved = button.textContent?.trim() === "Saved";
+					button.textContent = saved ? "Save" : "Saved";
+				});
+			});
+
+			document.querySelector("[data-newsletter]")?.addEventListener("submit", (event) => {
+				event.preventDefault();
+				const status = document.querySelector("[data-newsletter-status]");
+				if (status) status.textContent = "Briefing queued.";
+			});
+		</script>
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

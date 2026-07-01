@@ -276,7 +276,7 @@ export function renderViteAssets() {
 - [x] Add a tiny async data boundary in each app without reading from the filesystem, such as awaiting an in-memory promise before returning homepage or article data.
 - [x] Add the same local benchmark images to each app's public asset directory.
 - [x] Define image dimensions and alt text consistently across implementations.
-- [x] Remove unused starter welcome components and starter image assets only when no longer referenced. Starter components are still referenced by the temporary home routes and should be removed in Phase 3.
+- [x] Remove unused starter welcome components and starter image assets only when no longer referenced. Starter components and image assets were removed during Phase 3 after the benchmark homepages replaced the temporary starter routes.
 - [x] Keep the page route at `/` for every app.
 - [x] Add the same article detail route at `/articles/:slug` or the closest framework-native equivalent for every app.
 
@@ -296,18 +296,24 @@ export async function getArticle(slug: string) {
 ```
 
 ### Phase 3: Implement the benchmark homepage per framework
-- [ ] Build Astro `.astro` components for layout, lead story, story grid, latest list, and sidebar.
-- [ ] Build the Astro article route using shared header/footer layout components.
-- [ ] Add a small Astro client island for nav toggle or saved-story state.
-- [ ] Build the Next.js page as server components by default and isolate interactivity behind a `"use client"` component.
-- [ ] Build the Next.js article route using the shared app layout and force request-time rendering if static inference would otherwise apply.
-- [ ] Use `next/image` for Next.js benchmark images and document the resulting image optimization path.
-- [ ] Build the React Router route using route data loading where it reflects framework usage.
-- [ ] Build the React Router article route using route params and shared layout/components.
-- [ ] Build the React Router RSC route as a server component and isolate client-only state into explicit client components.
-- [ ] Build the React Router RSC article route using route params and shared layout/components.
-- [ ] Build the Hono JSX route with server-rendered markup and linked Vite-generated CSS/JavaScript assets.
-- [ ] Build the Hono article route with explicit route params and shared header/footer functions/components.
+- [x] Build Astro `.astro` components for layout, lead story, story grid, latest list, and sidebar.
+- [x] Build the Astro article route using shared header/footer layout components.
+- [x] Add a small Astro client island for nav toggle or saved-story state.
+- [x] Build the Next.js page as server components by default and isolate interactivity behind a `"use client"` component.
+- [x] Build the Next.js article route using the shared app layout and force request-time rendering if static inference would otherwise apply.
+- [x] Use `next/image` for Next.js benchmark images and document the resulting image optimization path.
+- [x] Build the React Router route using route data loading where it reflects framework usage.
+- [x] Build the React Router article route using route params and shared layout/components.
+- [x] Build the React Router RSC route as a server component and isolate client-only state into explicit client components.
+- [x] Build the React Router RSC article route using route params and shared layout/components.
+- [x] Build the Hono JSX route with server-rendered markup and linked Vite-generated CSS/JavaScript assets.
+- [x] Build the Hono article route with explicit route params and shared header/footer functions/components.
+
+Phase 3 notes:
+
+- The homepage and article route now share a `Framework Gazette` header/footer shell in every app.
+- Next.js uses `next/image` for all benchmark images, so image optimization will be captured as Next's built-in App Router image path in the Phase 4 qualitative matrix.
+- Astro and Hono use minimal browser scripts for the compact nav, save button, and newsletter state; Next.js, React Router, and React Router RSC isolate those interactions in explicit client components.
 
 Next.js client island target:
 

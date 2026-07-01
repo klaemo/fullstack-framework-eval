@@ -1,4 +1,6 @@
 import type { Route } from "./+types/articles.$slug";
+import { NewsChrome } from "../components/NewsChrome";
+import { ArticleView } from "../components/NewsViews";
 import { getArticle } from "../data/news";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,22 +18,8 @@ export async function ServerComponent({ params }: Route.ComponentProps) {
   }
 
   return (
-    <main>
-      <p>{article.section}</p>
-      <h1>{article.title}</h1>
-      <p>{article.dek}</p>
-      <img
-        src={article.image.src}
-        alt={article.image.alt}
-        width={article.image.width}
-        height={article.image.height}
-      />
-      <p>
-        {article.byline} - {article.readTime}
-      </p>
-      {article.body.map((paragraph) => (
-        <p key={paragraph}>{paragraph}</p>
-      ))}
-    </main>
+    <NewsChrome>
+      <ArticleView article={article} />
+    </NewsChrome>
   );
 }

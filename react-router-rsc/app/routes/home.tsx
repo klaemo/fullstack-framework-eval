@@ -1,13 +1,21 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { NewsChrome } from "../components/NewsChrome";
+import { NewsHome } from "../components/NewsViews";
+import { getHomepage } from "../data/news";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Framework Gazette" },
+    { name: "description", content: "SSR benchmark news edition" },
   ];
 }
 
-export function ServerComponent() {
-  return <Welcome />;
+export async function ServerComponent() {
+  const homepage = await getHomepage();
+
+  return (
+    <NewsChrome>
+      <NewsHome homepage={homepage} />
+    </NewsChrome>
+  );
 }

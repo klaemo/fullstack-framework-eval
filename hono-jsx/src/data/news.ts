@@ -59,6 +59,7 @@ export const articles: Article[] = [
 export const homepage = {
   edition: "Global",
   updatedAt: "2026-07-01T08:30:00.000Z",
+  metrics,
   lead: articles[0],
   topStories: [
     { section: "Business", title: "Chip demand redraws the server map", href: "/articles/cities-prepare-hotter-denser-decade" },
@@ -96,4 +97,3 @@ export async function getArticle(slug: string) {
   await Promise.resolve();
   return articles.find((article) => article.slug === slug) ?? null;
 }
-

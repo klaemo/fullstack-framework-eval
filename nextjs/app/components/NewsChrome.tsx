@@ -1,0 +1,43 @@
+import { CompactMenu } from "./InteractiveControls";
+import Link from "next/link";
+
+const navItems = ["World", "Business", "Culture", "Science"];
+
+export function NewsChrome({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <header className="border-b border-[var(--rule)] bg-[var(--paper)]">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between gap-4">
+            <Link href="/" className="font-serif text-3xl font-black tracking-normal sm:text-5xl">
+              Framework Gazette
+            </Link>
+            <div className="hidden items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-[var(--muted)] md:flex">
+              <span>Global desk</span>
+              <span className="h-2 w-2 bg-[var(--accent)]" />
+              <span>08:30 UTC</span>
+            </div>
+            <CompactMenu sections={navItems} />
+          </div>
+          <nav className="mt-4 hidden border-t border-[var(--rule)] pt-3 text-sm font-bold uppercase tracking-[0.16em] text-[var(--steel)] md:block">
+            <ul className="flex gap-8">
+              {navItems.map((item) => (
+                <li key={item}>
+                  <Link href="/">{item}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </header>
+      {children}
+      <footer className="border-t border-[var(--rule)] bg-[#eee7db]">
+        <div className="mx-auto grid max-w-7xl gap-3 px-4 py-8 text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)] sm:px-6 md:grid-cols-3 lg:px-8">
+          <p>Framework Gazette</p>
+          <p>Independent SSR benchmark edition</p>
+          <p className="md:text-right">Images served locally</p>
+        </div>
+      </footer>
+    </>
+  );
+}

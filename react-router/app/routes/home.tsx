@@ -1,13 +1,26 @@
+import { useLoaderData } from "react-router";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { NewsChrome } from "../components/NewsChrome";
+import { NewsHome } from "../components/NewsViews";
+import { getHomepage } from "../data/news";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Framework Gazette" },
+    { name: "description", content: "SSR benchmark news edition" },
   ];
 }
 
+export async function loader() {
+  return getHomepage();
+}
+
 export default function Home() {
-  return <Welcome />;
+  const homepage = useLoaderData<typeof loader>();
+
+  return (
+    <NewsChrome>
+      <NewsHome homepage={homepage} />
+    </NewsChrome>
+  );
 }

@@ -23,8 +23,6 @@ Measurement notes:
 - Browser measurements used headless Chrome, viewport `1440 x 1000`, cache disabled through DevTools, no artificial throttling, and three first-load runs per homepage. The table reports medians.
 - INP is not available from these synthetic page loads because there is no user interaction during measurement.
 - The initial JavaScript byte column is route-specific in the table below. The headline KPI remains the `/` route.
-- Astro shows `0.0 KB` initial JS because this table counts external JavaScript files. Astro's small menu/save/newsletter script is emitted inline in the HTML, about `0.6 KB` on the homepage.
-- React Router RSC's larger HTML response comes from embedded React Flight data. Standard React Router mostly sends normal HTML plus a compact loader-data stream; RSC sends normal HTML plus serialized RSC/Flight protocol data. In this small benchmark, that protocol overhead is larger than any savings from server components.
 
 ## Interpreting The Results
 

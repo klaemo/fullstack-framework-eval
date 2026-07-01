@@ -1,0 +1,55 @@
+{
+  "name": "tanstack-start",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "generate-routes": "tsr generate",
+    "build": "vite build",
+    "start": "NODE_ENV=production node .output/server/index.mjs",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.3.2",
+    "@tanstack/react-devtools": "0.10.8",
+    "@tanstack/react-router": "1.170.16",
+    "@tanstack/react-router-devtools": "1.167.0",
+    "@tanstack/react-router-ssr-query": "1.167.1",
+    "@tanstack/react-start": "1.168.26",
+    "@tanstack/router-plugin": "1.168.18",
+    "lucide-react": "0.545.0",
+    "nitro": "npm:nitro-nightly@3.0.1-20260630-211222-ad3a2d47",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "srvx": "0.11.18",
+    "tailwindcss": "4.3.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "0.5.20",
+    "@tanstack/devtools-vite": "0.8.1",
+    "@tanstack/router-cli": "1.167.17",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "22.20.0",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.3",
+    "jsdom": "28.1.0",
+    "typescript": "6.0.3",
+    "vite": "8.1.2",
+    "vitest": "4.1.9"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lightningcss"
+    ]
+  }
+}

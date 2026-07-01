@@ -1,12 +1,12 @@
 # Developer Experience And Ecosystem Analysis
 
-This note compares how straightforward the five benchmark setups are to extend beyond the current homepage and article route. It focuses on adding more pages, adding more data loading, introducing richer client interactivity, lazy-loading client modules, and identifying what each framework includes versus what the app has to wire by hand.
+This note compares how straightforward the six benchmark setups are to extend beyond the current homepage and article route. It focuses on adding more pages, adding more data loading, introducing richer client interactivity, lazy-loading client modules, and identifying what each framework includes versus what the app has to wire by hand.
 
 ## Summary
 
 | Best fit | Frameworks | Why |
 | --- | --- | --- |
-| Product app with pages, data, and React interactivity | Next.js, React Router | Most batteries included for routing, data, and component structure. |
+| Product app with pages, data, and React interactivity | Next.js, React Router, TanStack Start | Most batteries included for routing, data, and component structure. |
 | Content-heavy SSR with small interactive spots | Astro | Very low JavaScript, simple page model, and a strong island story when richer client behavior is needed. |
 | Thin custom server or maximum control | Hono JSX | Fast and tiny, but the app owns most app-framework behavior. |
 | Experimental RSC exploration | React Router RSC | Conceptually promising, but current stability and ecosystem risk are real. |
@@ -15,9 +15,10 @@ Practical extension ranking:
 
 1. Next.js: best included ecosystem, easiest scaling path, highest runtime and bundle cost.
 2. React Router: best explicitness/control balance, good for teams that want framework primitives without the full Next.js platform feel.
-3. Astro: best if the app stays content-first and interactivity remains island-sized.
-4. Hono JSX: best for custom server/control/performance, weakest for app-scale developer experience.
-5. React Router RSC: interesting future path, but the benchmark stability caveat makes it risky today.
+3. TanStack Start: strong typed-routing and full-stack primitives, but the RC/Nitro stack has more moving parts than standard React Router.
+4. Astro: best if the app stays content-first and interactivity remains island-sized.
+5. Hono JSX: best for custom server/control/performance, weakest for app-scale developer experience.
+6. React Router RSC: interesting future path, but the benchmark stability caveat makes it risky today.
 
 ## Next.js
 
@@ -85,6 +86,43 @@ Client lazy loading:
 
 - Good through route/module splitting and normal React/Vite dynamic imports.
 - Less automatic-feeling than Next.js App Router, but predictable.
+
+## TanStack Start
+
+TanStack Start feels like a full-stack version of the explicit route-module model: file routes define loaders, head metadata, components, and typed params through TanStack Router. In this benchmark, `tanstack-start/src/routes/index.tsx` loads homepage data and `tanstack-start/src/routes/articles.$slug.tsx` loads the dynamic article route.
+
+Adding pages is straightforward once the file-route conventions are familiar, but the generated route tree is part of the workflow. That is a DX advantage for type safety and a small source of ceremony compared with frameworks where the build hides route discovery entirely.
+
+Included:
+
+- File-based routes backed by TanStack Router.
+- Typed route params and generated route tree.
+- Route loaders for server data.
+- Route-level `head` metadata.
+- Normal React client interactivity.
+- Vite build tooling.
+- Nitro server output for multiple deployment targets.
+- Server functions, middleware, and API route primitives when the app needs them.
+
+Hand wired or app-owned:
+
+- Image optimization.
+- Higher-level caching and invalidation policy.
+- Data-client conventions beyond route loaders and server functions.
+- Route-tree generation in the local workflow.
+- Decisions about Nitro preset/runtime behavior.
+
+Likely snags:
+
+- The stack is powerful but still RC-era. Documentation and examples are improving quickly, but there is less settled production folk wisdom than Next.js or standard React Router.
+- The build output has several layers: client assets, SSR service artifacts, generated route tree, and Nitro server output. That is manageable, but it gives teams more generated artifacts to understand when debugging.
+- The benchmark emitted `327.3 KB` of initial JavaScript for `/`, close to React Router and much lower than Next.js here, but not a zero-JS/content-site profile.
+- Teams need conventions for loaders versus server functions, cache invalidation, and shared data dependencies as the app grows.
+
+Client lazy loading:
+
+- Good through route splitting, TanStack Router lazy route patterns, and normal Vite dynamic imports.
+- Less RSC-like than Next.js because server-only component boundaries are not the current model, but easier to reason about than experimental RSC stacks.
 
 ## React Router RSC
 
@@ -192,24 +230,26 @@ Client lazy loading:
 
 ## What Is Included Versus Hand Wired
 
-| Capability | Next.js | React Router | React Router RSC | Astro | Hono JSX |
-| --- | --- | --- | --- | --- | --- |
-| Add page | File segment | Route config + route module | Route config + route module | File page | `app.get` route |
-| Dynamic params | Included | Included | Included | Included | Included, manually read from request |
-| Server data loading | Server components | Loaders | Server components | Frontmatter | Handler code |
-| Client interactivity | `"use client"` React | Normal React | `"use client"` React | Islands or DOM script | Manual client script |
-| Client lazy loading | Strong built-in ecosystem | React/Vite patterns | Promising but experimental | Island directives | Manual Vite patterns |
-| Image optimization | Built in | App-owned | App-owned | Astro-dependent setup | App-owned |
-| Metadata | Included conventions | Route metadata | Route metadata | Layout/frontmatter | App-owned |
-| Asset manifest wiring | Included | Included | Included | Included | App-owned |
-| Production server | Included | Included | Included, experimental caveat | Adapter output | App-owned server bundle |
-| Ecosystem maturity | Highest | High | Emerging | High for content sites | High server ecosystem, lower app-framework coverage |
+| Capability | Next.js | React Router | TanStack Start | React Router RSC | Astro | Hono JSX |
+| --- | --- | --- | --- | --- | --- | --- |
+| Add page | File segment | Route config + route module | File route + generated route tree | Route config + route module | File page | `app.get` route |
+| Dynamic params | Included | Included | Included | Included | Included | Included, manually read from request |
+| Server data loading | Server components | Loaders | Loaders/server functions | Server components | Frontmatter | Handler code |
+| Client interactivity | `"use client"` React | Normal React | Normal React | `"use client"` React | Islands or DOM script | Manual client script |
+| Client lazy loading | Strong built-in ecosystem | React/Vite patterns | TanStack Router/Vite patterns | Promising but experimental | Island directives | Manual Vite patterns |
+| Image optimization | Built in | App-owned | App-owned | App-owned | Astro-dependent setup | App-owned |
+| Metadata | Included conventions | Route metadata | Route `head` metadata | Route metadata | Layout/frontmatter | App-owned |
+| Asset manifest wiring | Included | Included | Included | Included | Included | App-owned |
+| Production server | Included | Included | Nitro output | Included, experimental caveat | Adapter output | App-owned server bundle |
+| Ecosystem maturity | Highest | High | Emerging/full-stack RC | Emerging | High for content sites | High server ecosystem, lower app-framework coverage |
 
 ## Recommendation
 
 Choose Next.js if the app is expected to grow into a full product with many pages, mixed server/client UI, image needs, auth-adjacent data, and a desire for mainstream ecosystem answers.
 
 Choose React Router if the team wants explicit routing and data primitives with less platform lock-in, and is comfortable defining app conventions around caching, mutations, and image handling.
+
+Choose TanStack Start if the team likes TanStack Router's typed route model and wants full-stack primitives, Nitro deployment flexibility, and a Vite-first React app without adopting Next.js. It is a strong middle path, but I would budget more framework-learning time than standard React Router.
 
 Choose Astro if the app is primarily editorial/content-driven and client interactivity can remain isolated. It is the best fit when avoiding JavaScript is a product goal rather than just a benchmark win.
 

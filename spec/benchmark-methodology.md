@@ -1,12 +1,13 @@
 # Benchmark Methodology
 
-This document defines how to collect comparable benchmark numbers for the five independent SSR news implementations:
+This document defines how to collect comparable benchmark numbers for the six independent SSR news implementations:
 
 - `astro`
 - `nextjs`
 - `react-router`
 - `react-router-rsc`
 - `hono-jsx`
+- `tanstack-start`
 
 Collect all measurements from the repository root unless a command explicitly changes directories.
 
@@ -37,6 +38,7 @@ Use one app per port when running side by side where the production server suppo
 | React Router | 4103 | `cd react-router && NODE_ENV=production npm run build` | `cd react-router && HOST=127.0.0.1 PORT=4103 NODE_ENV=production npm run start` |
 | React Router RSC | 4104 | `cd react-router-rsc && NODE_ENV=production npm run build` | `cd react-router-rsc && HOST=127.0.0.1 PORT=4104 NODE_ENV=production npm run start` |
 | Hono JSX | 3000 | `cd hono-jsx && NODE_ENV=production npm run build` | `cd hono-jsx && NODE_ENV=production npm run start` |
+| TanStack Start | 4105 | `cd tanstack-start && NODE_ENV=production npm run build` | `cd tanstack-start && HOST=127.0.0.1 PORT=4105 NODE_ENV=production npm run start` |
 
 Measure these routes for every app:
 
@@ -56,6 +58,7 @@ Clean only framework build outputs and generated framework caches before each ti
 | React Router | `cd react-router && rm -rf build .react-router/types` |
 | React Router RSC | `cd react-router-rsc && rm -rf build .react-router/types` |
 | Hono JSX | `cd hono-jsx && rm -rf dist public/assets` |
+| TanStack Start | `cd tanstack-start && rm -rf .output node_modules/.nitro` |
 
 Command shape:
 
@@ -102,6 +105,7 @@ Starting points:
 | React Router | `react-router/build/client/.vite/manifest.json` plus `react-router/build/client/assets/*.js` |
 | React Router RSC | `react-router-rsc/build/client/assets/*.js` plus RSC build manifest output |
 | Hono JSX | `hono-jsx/public/assets/.vite/manifest.json` and the `src/client.ts` entry |
+| TanStack Start | `tanstack-start/.output/public/assets/*.js` plus rendered HTML for `/` |
 
 Byte-count command shape after deciding the exact file list:
 

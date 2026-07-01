@@ -9,7 +9,7 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "astro preview",
-    "start": "node ./dist/server/entry.mjs",
+    "start": "NODE_ENV=production node ./dist/server/entry.mjs",
     "astro": "astro"
   },
   "dependencies": {

@@ -1,12 +1,13 @@
 # Full Stack Framework SSR Benchmark
 
-This repository compares five independent SSR implementations of the same news-style page:
+This repository compares six independent SSR implementations of the same news-style page:
 
 - `astro`
 - `nextjs`
 - `react-router`
 - `react-router-rsc`
 - `hono-jsx`
+- `tanstack-start`
 
 Each app renders the same homepage at `/` and the same article route at `/articles/cities-prepare-hotter-denser-decade`. The benchmark compares build time, served HTML size, initial JavaScript size, local production render timing, browser Web Vitals, and qualitative framework ergonomics.
 
@@ -41,6 +42,7 @@ RSC tends to pay off when it keeps substantial code or data work out of the brow
 | React Router | 1.37s | 0.84s | 1.72s | 1.37s | Vite client and SSR builds; local run-to-run variance is visible. |
 | React Router RSC | 1.78s | 1.46s | 1.98s | 1.78s | Experimental RSC build runs five build phases. |
 | Hono JSX | 0.95s | 0.85s | 1.16s | 0.95s | Separate Vite client and server builds. |
+| TanStack Start | 6.68s | 2.62s | 2.51s | 2.62s | First run paid extra Nitro/Vite warmup; build emits client, SSR service, and Nitro server output. |
 
 ## Route Bytes And Timing
 
@@ -58,6 +60,8 @@ Sizes are shown as decimal KB.
 | React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | 1,089 | 9.2 ms | 8.4 ms | 12.0 ms | 25.3 ms |
 | Hono JSX | `/` | 7.7 | 0.6 | 6,450 | 1.5 ms | 1.2 ms | 2.3 ms | 5.0 ms |
 | Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3.2 | 0.6 | 11,372 | 0.9 ms | 0.7 ms | 1.4 ms | 2.5 ms |
+| TanStack Start | `/` | 11.4 | 327.3 | 2,915 | 3.4 ms | 2.6 ms | 5.4 ms | 13.2 ms |
+| TanStack Start | `/articles/cities-prepare-hotter-denser-decade` | 5.8 | 327.3 | 4,758 | 2.1 ms | 1.7 ms | 3.5 ms | 7.8 ms |
 
 ## Web Vitals
 
@@ -68,6 +72,7 @@ Sizes are shown as decimal KB.
 | React Router | `/` | 136.0 ms | 0.0000 | n/a | 136.0 ms | 4.6 ms | Median of three headless Chrome first-load runs. |
 | React Router RSC | `/` | 120.0 ms | 0.0000 | n/a | 120.0 ms | 7.3 ms | Median of three headless Chrome first-load runs; one run had a much slower load event at 819.8 ms. |
 | Hono JSX | `/` | 72.0 ms | 0.0000 | n/a | 72.0 ms | 1.4 ms | Median of three headless Chrome first-load runs. |
+| TanStack Start | `/` | 268.0 ms | 0.0000 | n/a | 268.0 ms | 6.8 ms | Median of three headless Chrome first-load runs via CDP; runs were 268 ms, 116 ms, and 304 ms LCP. |
 
 ## Qualitative Comparison
 
@@ -78,6 +83,7 @@ Sizes are shown as decimal KB.
 | React Router | Route `loader` returns homepage/article data. | Route modules registered through `app/routes.ts`, dynamic route file `articles.$slug.tsx`. | Shared React components under `app/components`. | Static local images from `public/images`; no built-in optimizer in this implementation. | `build/server/index.js`, run with `react-router-serve`. | Explicit loader and route module model with normal client hydration. |
 | React Router RSC | Server components call local async getters; client state isolated in client component file. | Route modules with `ServerComponent`, dynamic route file `articles.$slug.tsx`. | Shared server components plus explicit client controls. | Static local images from `public/images`; no built-in optimizer in this implementation. | RSC build under `build/server`, run with `react-router-serve`. | Experimental RSC build has more generated artifacts and client/server boundaries to inspect. |
 | Hono JSX | Hono handlers call local async getters before server-rendering JSX. | Explicit server routes in `src/index.tsx`, dynamic param at `/articles/:slug`. | Shared JSX functions under `src/components/news.tsx`. | Static local images from `public/images`; manual asset serving. | Vite server bundle at `dist/index.js`, run with `node`. | Manual HTML shell, static serving, Vite manifest, and browser script wiring. |
+| TanStack Start | Route `loader`s call local async getters and serialize loader data into the SSR stream. | File routes under `src/routes`, dynamic route file `articles.$slug.tsx`, generated typed route tree. | Root document plus shared React components under `src/components`. | Static local images from `public/images`; no built-in optimizer in this implementation. | Nitro Node output under `.output/server/index.mjs`, run with `node`. | Integrated router/build/server output, but route-tree generation and Nitro/Vite artifacts add framework-specific moving parts. |
 
 ## Caveats
 

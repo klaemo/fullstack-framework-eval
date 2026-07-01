@@ -11,6 +11,47 @@ This document defines how to collect comparable benchmark numbers for the six in
 
 Collect all measurements from the repository root unless a command explicitly changes directories.
 
+## Canonical Automation
+
+Use the repository scripts for repeatable benchmark collection instead of ad hoc shell commands:
+
+```sh
+node scripts/collect-benchmarks.mjs --output benchmark-results/latest.json
+node scripts/update-readme-results.mjs benchmark-results/latest.json
+```
+
+The collector derives the repository root from the script location, so it does not depend on any local home-directory path. Raw JSON outputs under `benchmark-results/*.json` are gitignored by default; keep them locally for audit/debugging, or force-add a specific result file only when a review needs the raw data.
+
+The collector performs the full flow:
+
+- Three cold production builds per app, cleaning only the framework outputs listed below.
+- One final production build per app for server measurements.
+- Production server startup on the documented ports.
+- Uncompressed HTML byte counts for `/` and the article route.
+- Initial route JavaScript bytes from the generated production HTML and filesystem assets.
+- `oha` server timing for both routes, using JSON output for deterministic parsing.
+- `agent-browser vitals` for three first-load homepage runs per app.
+
+Useful options:
+
+```sh
+node scripts/collect-benchmarks.mjs --output benchmark-results/latest.json
+node scripts/collect-benchmarks.mjs --build-runs 1 --vitals-runs 1 --oha-duration 5s --output benchmark-results/smoke.json
+node scripts/collect-benchmarks.mjs --skip-vitals --output benchmark-results/no-vitals.json
+node scripts/collect-benchmarks.mjs --skip-oha --output benchmark-results/no-oha.json
+```
+
+`agent-browser` needs to be able to create its local browser/socket state. If this is run from a sandboxed agent environment and `agent-browser vitals` fails with a socket-directory permission error, rerun the collector from a normal terminal or grant the agent-browser command the required escalation. The generated README should still be updated from a successful full JSON result, not from a partial failed vitals run.
+
+After collection, run the README updater and review the diff:
+
+```sh
+node scripts/update-readme-results.mjs benchmark-results/latest.json
+git diff -- readme.md spec/benchmark-methodology.md scripts
+```
+
+If React Router RSC still fails on the article route under load, keep the failure in the results table and caveats. Do not substitute a previous successful number for a failed rerun.
+
 ## Runtime Baseline
 
 - Date recorded: 2026-07-01
@@ -144,7 +185,7 @@ Use `oha` as the source of record unless there is a clear tool failure.
 
 ## Browser Web Vitals
 
-Use the browser against the local production server. Measure `/` for every app; also measure the article route if time allows.
+Use `agent-browser vitals` against the local production server. Measure `/` for every app; also measure the article route if time allows.
 
 Record:
 
@@ -159,7 +200,7 @@ Record:
 Recommended baseline:
 
 - Viewport: `1440 x 1000`
-- Cache: disabled for first-load measurements
+- Browser session: fresh `agent-browser` session per run
 - Throttling: no artificial throttling unless all apps use the same setting
 - Runs: at least 3 per route, median reported
 

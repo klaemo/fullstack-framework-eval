@@ -15,13 +15,13 @@ See [spec/benchmark-methodology.md](spec/benchmark-methodology.md) for the measu
 
 ## Results
 
-These numbers were collected on 2026-07-01 with Node.js `v24.18.0`, `oha 1.14.0`, and Google Chrome `149.0.7827.201`.
+These numbers were collected on 2026-07-01 with Node.js `v24.18.0`, `oha 1.14.0`, `agent-browser 0.31.1`, and Headless Chrome `150.0.0.0`.
 
 Measurement notes:
 
 - `oha` was run with `NO_COLOR=false` because this local environment sets `NO_COLOR=1`, which `oha 1.14.0` parses as an invalid boolean value.
-- Server timing used 30 seconds at concurrency 10 after one warmup request per route.
-- Browser measurements used headless Chrome, viewport `1440 x 1000`, cache disabled through DevTools, no artificial throttling, and three first-load runs per homepage. The table reports medians.
+- Server timing used 30s at concurrency 10 after one warmup request per route.
+- Browser measurements used `agent-browser vitals`, Headless Chrome, viewport `1440 x 1000`, a fresh browser session per run, no artificial throttling, and 3 first-load runs per homepage. The table reports medians.
 - INP is not available from these synthetic page loads because there is no user interaction during measurement.
 - The initial JavaScript byte column is route-specific in the table below. The headline KPI remains the `/` route.
 
@@ -37,12 +37,12 @@ RSC tends to pay off when it keeps substantial code or data work out of the brow
 
 | App | Run 1 real | Run 2 real | Run 3 real | Median real | Notes |
 | --- | ---: | ---: | ---: | ---: | --- |
-| Astro | 2.04s | 1.09s | 1.03s | 1.09s | First run paid extra dependency/config warmup despite cleaned framework outputs. |
-| Next.js | 6.64s | 6.77s | 6.21s | 6.64s | `next build` with Turbopack, TypeScript, and app route analysis. |
-| React Router | 1.37s | 0.84s | 1.72s | 1.37s | Vite client and SSR builds; local run-to-run variance is visible. |
-| React Router RSC | 1.78s | 1.46s | 1.98s | 1.78s | Experimental RSC build runs five build phases. |
-| Hono JSX | 0.95s | 0.85s | 1.16s | 0.95s | Separate Vite client and server builds. |
-| TanStack Start | 6.68s | 2.62s | 2.51s | 2.62s | First run paid extra Nitro/Vite warmup; build emits client, SSR service, and Nitro server output. |
+| Astro | 1.48s | 0.97s | 0.94s | 0.97s | First run paid extra dependency/config warmup despite cleaned framework outputs. |
+| Next.js | 4.63s | 3.34s | 3.39s | 3.39s | `next build` with Turbopack, TypeScript, and app route analysis. |
+| React Router | 0.92s | 0.72s | 0.68s | 0.72s | Vite client and SSR builds. |
+| React Router RSC | 1.25s | 1.04s | 1.04s | 1.04s | Experimental RSC build runs five build phases. |
+| Hono JSX | 1.49s | 0.79s | 0.74s | 0.79s | Separate Vite client and server builds. |
+| TanStack Start | 5.17s | 1.05s | 1.01s | 1.05s | First run paid extra Nitro/Vite warmup; build emits client, SSR service, and Nitro server output with `srvx` FastResponse enabled. |
 
 ## Route Bytes And Timing
 
@@ -50,29 +50,29 @@ Sizes are shown as decimal KB.
 
 | App | Route | HTML KB | Initial JS KB | `oha` req/s | Mean latency | P50 | P90 | P99 |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Astro | `/` | 8.3 | 0.0 | 5,149 | 1.9 ms | 1.5 ms | 2.6 ms | 9.7 ms |
-| Astro | `/articles/cities-prepare-hotter-denser-decade` | 4.0 | 0.0 | 6,410 | 1.6 ms | 1.2 ms | 2.3 ms | 7.5 ms |
-| Next.js | `/` | 24.5 | 649.2 | 562 | 17.8 ms | 14.7 ms | 25.6 ms | 65.1 ms |
-| Next.js | `/articles/cities-prepare-hotter-denser-decade` | 14.8 | 649.2 | 771 | 13.0 ms | 11.9 ms | 15.1 ms | 32.1 ms |
-| React Router | `/` | 13.3 | 323.3 | 1,052 | 9.5 ms | 9.0 ms | 12.1 ms | 22.6 ms |
-| React Router | `/articles/cities-prepare-hotter-denser-decade` | 8.0 | 323.3 | 1,330 | 7.5 ms | 7.3 ms | 10.1 ms | 17.1 ms |
-| React Router RSC | `/` | 21.7 | 332.9 | 689 | 14.5 ms | 13.4 ms | 19.7 ms | 32.7 ms |
-| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | 1,089 | 9.2 ms | 8.4 ms | 12.0 ms | 25.3 ms |
-| Hono JSX | `/` | 7.7 | 0.6 | 6,450 | 1.5 ms | 1.2 ms | 2.3 ms | 5.0 ms |
-| Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3.2 | 0.6 | 11,372 | 0.9 ms | 0.7 ms | 1.4 ms | 2.5 ms |
-| TanStack Start | `/` | 11.4 | 327.3 | 2,915 | 3.4 ms | 2.6 ms | 5.4 ms | 13.2 ms |
-| TanStack Start | `/articles/cities-prepare-hotter-denser-decade` | 5.8 | 327.3 | 4,758 | 2.1 ms | 1.7 ms | 3.5 ms | 7.8 ms |
+| Astro | `/` | 8.3 | 0.0 | 6,192 | 1.6 ms | 1.5 ms | 1.9 ms | 4.9 ms |
+| Astro | `/articles/cities-prepare-hotter-denser-decade` | 4.0 | 0.0 | 8,359 | 1.2 ms | 1.1 ms | 1.4 ms | 4.0 ms |
+| Next.js | `/` | 24.5 | 649.2 | 702 | 14.2 ms | 13.7 ms | 15.5 ms | 25.0 ms |
+| Next.js | `/articles/cities-prepare-hotter-denser-decade` | 14.8 | 649.2 | 842 | 11.9 ms | 11.5 ms | 12.9 ms | 20.5 ms |
+| React Router | `/` | 13.3 | 323.3 | 1,065 | 9.4 ms | 9.4 ms | 11.2 ms | 14.4 ms |
+| React Router | `/articles/cities-prepare-hotter-denser-decade` | 8.0 | 323.3 | 1,415 | 7.1 ms | 6.9 ms | 8.9 ms | 12.8 ms |
+| React Router RSC | `/` | 21.7 | 332.9 | 730 | 13.7 ms | 12.8 ms | 18.3 ms | 25.3 ms |
+| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | failed | failed | failed | failed | failed |
+| Hono JSX | `/` | 7.7 | 0.6 | 7,223 | 1.4 ms | 1.2 ms | 2.2 ms | 2.7 ms |
+| Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3.2 | 0.6 | 12,632 | 0.8 ms | 0.7 ms | 1.3 ms | 1.6 ms |
+| TanStack Start | `/` | 11.4 | 327.3 | 3,676 | 2.7 ms | 2.3 ms | 4.3 ms | 7.8 ms |
+| TanStack Start | `/articles/cities-prepare-hotter-denser-decade` | 5.8 | 327.3 | 5,804 | 1.7 ms | 1.4 ms | 2.8 ms | 4.6 ms |
 
 ## Web Vitals
 
 | App | Route | LCP | CLS | INP | FCP | TTFB | Notes |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Astro | `/` | 120.0 ms | 0.0000 | n/a | 120.0 ms | 4.9 ms | Median of three headless Chrome first-load runs. |
-| Next.js | `/` | 68.0 ms | 0.0000 | n/a | 68.0 ms | 5.6 ms | Median of three headless Chrome first-load runs. |
-| React Router | `/` | 136.0 ms | 0.0000 | n/a | 136.0 ms | 4.6 ms | Median of three headless Chrome first-load runs. |
-| React Router RSC | `/` | 120.0 ms | 0.0000 | n/a | 120.0 ms | 7.3 ms | Median of three headless Chrome first-load runs; one run had a much slower load event at 819.8 ms. |
-| Hono JSX | `/` | 72.0 ms | 0.0000 | n/a | 72.0 ms | 1.4 ms | Median of three headless Chrome first-load runs. |
-| TanStack Start | `/` | 268.0 ms | 0.0000 | n/a | 268.0 ms | 6.8 ms | Median of three headless Chrome first-load runs via CDP; runs were 268 ms, 116 ms, and 304 ms LCP. |
+| Astro | `/` | 76.0 ms | 0.0000 | n/a | 76.0 ms | 4.0 ms | Median of three `agent-browser vitals` first-load runs; LCP runs were 268 ms, 76 ms, 68 ms. |
+| Next.js | `/` | 84.0 ms | 0.0000 | n/a | 84.0 ms | 12.3 ms | Median of three `agent-browser vitals` first-load runs. |
+| React Router | `/` | 156.0 ms | 0.0000 | n/a | 156.0 ms | 10.0 ms | Median of three `agent-browser vitals` first-load runs. |
+| React Router RSC | `/` | 168.0 ms | 0.0000 | n/a | 168.0 ms | 12.6 ms | Median of three `agent-browser vitals` first-load runs. |
+| Hono JSX | `/` | 76.0 ms | 0.0000 | n/a | 76.0 ms | 2.2 ms | Median of three `agent-browser vitals` first-load runs. |
+| TanStack Start | `/` | 72.0 ms | 0.0000 | n/a | 72.0 ms | 6.2 ms | Median of three `agent-browser vitals` first-load runs after enabling Nitro/srvx FastResponse. |
 
 ## Qualitative Comparison
 
@@ -87,6 +87,6 @@ Sizes are shown as decimal KB.
 
 ## Caveats
 
-- React Router RSC's article route repeatedly triggers a generated SSR stream failure under the documented `oha -z 30s -c 10` load. In a follow-up five-run audit against a fresh production server, the first article-route run returned 100% HTTP success and then logged `TypeError: Invalid state: Unable to enqueue`; subsequent runs failed with connection refused because the server was no longer accepting connections. The successful first-run timing is recorded above, but the route has a repeatable runtime stability caveat.
+- React Router RSC's article route repeatedly triggers a generated SSR stream failure under the documented `oha -z 30s -c 10` load. In this rerun, the homepage load test completed, then the article route returned 0% HTTP success with connection refused errors after the server logged `TypeError: Invalid state: Unable to enqueue`.
 - HTML parity checks confirmed the same semantic homepage shape in all apps: one `h1`, four story `article` elements, one `nav`, one newsletter `form`, three buttons, and four images. Article pages each render one `h1`, one `article`, one `nav`, two buttons, and one image.
 - Extra repeated text in Next.js and React Router RSC HTML comes from serialized framework/RSC payload data rather than additional semantic content.

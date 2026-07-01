@@ -8,7 +8,7 @@ This repository compares five independent SSR implementations of the same news-s
 - `react-router-rsc`
 - `hono-jsx`
 
-Each app renders the same homepage at `/` and the same article route at `/articles/cities-prepare-hotter-denser-decade`. The benchmark compares build time, served HTML bytes, initial JavaScript bytes, local production render timing, browser Web Vitals, and qualitative framework ergonomics.
+Each app renders the same homepage at `/` and the same article route at `/articles/cities-prepare-hotter-denser-decade`. The benchmark compares build time, served HTML size, initial JavaScript size, local production render timing, browser Web Vitals, and qualitative framework ergonomics.
 
 See [spec/benchmark-methodology.md](spec/benchmark-methodology.md) for the measurement commands and collection rules.
 
@@ -36,18 +36,20 @@ Measurement notes:
 
 ## Route Bytes And Timing
 
-| App | Route | HTML bytes | Initial JS bytes | `oha` req/s | Mean latency | P50 | P90 | P99 |
+Sizes are shown as decimal KB.
+
+| App | Route | HTML KB | Initial JS KB | `oha` req/s | Mean latency | P50 | P90 | P99 |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Astro | `/` | 8,331 | 0 | 5,148.6580 | 1.9403 ms | 1.5279 ms | 2.6400 ms | 9.7335 ms |
-| Astro | `/articles/cities-prepare-hotter-denser-decade` | 3,966 | 0 | 6,409.5392 | 1.5584 ms | 1.1612 ms | 2.3020 ms | 7.5120 ms |
-| Next.js | `/` | 24,515 | 649,211 | 562.2715 | 17.7911 ms | 14.7026 ms | 25.6170 ms | 65.0602 ms |
-| Next.js | `/articles/cities-prepare-hotter-denser-decade` | 14,757 | 649,211 | 770.5595 | 12.9789 ms | 11.8533 ms | 15.1057 ms | 32.1095 ms |
-| React Router | `/` | 13,293 | 323,255 | 1,052.2552 | 9.4990 ms | 8.9991 ms | 12.0845 ms | 22.5872 ms |
-| React Router | `/articles/cities-prepare-hotter-denser-decade` | 7,967 | 323,266 | 1,330.3844 | 7.5122 ms | 7.2987 ms | 10.0817 ms | 17.0856 ms |
-| React Router RSC | `/` | 21,737 | 332,912 | 688.7433 | 14.5183 ms | 13.3655 ms | 19.6958 ms | 32.7178 ms |
-| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11,206 | 332,929 | 1,089.1320 | 9.1785 ms | 8.3917 ms | 11.9960 ms | 25.2668 ms |
-| Hono JSX | `/` | 7,680 | 601 | 6,450.3229 | 1.5486 ms | 1.2451 ms | 2.3338 ms | 4.9642 ms |
-| Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3,199 | 601 | 11,371.7337 | 0.8780 ms | 0.7244 ms | 1.3939 ms | 2.4823 ms |
+| Astro | `/` | 8.3 | 0.0 | 5,149 | 1.9 ms | 1.5 ms | 2.6 ms | 9.7 ms |
+| Astro | `/articles/cities-prepare-hotter-denser-decade` | 4.0 | 0.0 | 6,410 | 1.6 ms | 1.2 ms | 2.3 ms | 7.5 ms |
+| Next.js | `/` | 24.5 | 649.2 | 562 | 17.8 ms | 14.7 ms | 25.6 ms | 65.1 ms |
+| Next.js | `/articles/cities-prepare-hotter-denser-decade` | 14.8 | 649.2 | 771 | 13.0 ms | 11.9 ms | 15.1 ms | 32.1 ms |
+| React Router | `/` | 13.3 | 323.3 | 1,052 | 9.5 ms | 9.0 ms | 12.1 ms | 22.6 ms |
+| React Router | `/articles/cities-prepare-hotter-denser-decade` | 8.0 | 323.3 | 1,330 | 7.5 ms | 7.3 ms | 10.1 ms | 17.1 ms |
+| React Router RSC | `/` | 21.7 | 332.9 | 689 | 14.5 ms | 13.4 ms | 19.7 ms | 32.7 ms |
+| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | 1,089 | 9.2 ms | 8.4 ms | 12.0 ms | 25.3 ms |
+| Hono JSX | `/` | 7.7 | 0.6 | 6,450 | 1.5 ms | 1.2 ms | 2.3 ms | 5.0 ms |
+| Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3.2 | 0.6 | 11,372 | 0.9 ms | 0.7 ms | 1.4 ms | 2.5 ms |
 
 ## Web Vitals
 

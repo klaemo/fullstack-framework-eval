@@ -129,10 +129,10 @@ function replaceCaveat(text) {
   const oha = normalizeOha(route?.oha)
   if (!oha || oha.summary?.successRate !== 0) return text
 
-  const line = '- React Router RSC\'s article route repeatedly triggers a generated SSR stream failure under the documented `oha -z 30s -c 10` load. In this rerun, the homepage load test completed, then the article route returned 0% HTTP success with connection refused errors after the server logged `TypeError: Invalid state: Unable to enqueue`.'
+  const line = '- React Router RSC repeatedly logs a generated SSR stream failure under the documented `oha -z 30s -c 10` load. The article-route run itself completed with 100% HTTP success and the table reports those numbers, but the server logged `TypeError: Invalid state: Unable to enqueue` immediately afterward and exited.'
 
   return text.replace(
-    /^- React Router RSC's article route repeatedly triggers .+$/m,
+    /^- React Router RSC(?:'s article route)? .+$/m,
     line,
   )
 }

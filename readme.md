@@ -57,7 +57,7 @@ Sizes are shown as decimal KB.
 | React Router | `/` | 13.3 | 323.3 | 1,065 | 9.4 ms | 9.4 ms | 11.2 ms | 14.4 ms |
 | React Router | `/articles/cities-prepare-hotter-denser-decade` | 8.0 | 323.3 | 1,415 | 7.1 ms | 6.9 ms | 8.9 ms | 12.8 ms |
 | React Router RSC | `/` | 21.7 | 332.9 | 730 | 13.7 ms | 12.8 ms | 18.3 ms | 25.3 ms |
-| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | failed | failed | failed | failed | failed |
+| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | 11.2 | 332.9 | 1,249 | 8.0 ms | 7.4 ms | 10.5 ms | 20.6 ms |
 | Hono JSX | `/` | 7.7 | 0.6 | 7,223 | 1.4 ms | 1.2 ms | 2.2 ms | 2.7 ms |
 | Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | 3.2 | 0.6 | 12,632 | 0.8 ms | 0.7 ms | 1.3 ms | 1.6 ms |
 | TanStack Start | `/` | 11.4 | 327.3 | 3,676 | 2.7 ms | 2.3 ms | 4.3 ms | 7.8 ms |
@@ -87,6 +87,6 @@ Sizes are shown as decimal KB.
 
 ## Caveats
 
-- React Router RSC's article route repeatedly triggers a generated SSR stream failure under the documented `oha -z 30s -c 10` load. In this rerun, the homepage load test completed, then the article route returned 0% HTTP success with connection refused errors after the server logged `TypeError: Invalid state: Unable to enqueue`.
+- React Router RSC repeatedly logs a generated SSR stream failure under the documented `oha -z 30s -c 10` load. The article-route run itself completed with 100% HTTP success and the table reports those numbers, but the server logged `TypeError: Invalid state: Unable to enqueue` immediately afterward and exited.
 - HTML parity checks confirmed the same semantic homepage shape in all apps: one `h1`, four story `article` elements, one `nav`, one newsletter `form`, three buttons, and four images. Article pages each render one `h1`, one `article`, one `nav`, two buttons, and one image.
 - Extra repeated text in Next.js and React Router RSC HTML comes from serialized framework/RSC payload data rather than additional semantic content.

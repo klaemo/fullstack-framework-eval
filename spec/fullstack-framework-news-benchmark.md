@@ -412,18 +412,25 @@ curl -s http://localhost:3000/ | wc -c
 Core Web Vitals should be captured from the browser against the production server for `/` and, if practical, `/articles/cities-prepare-hotter-denser-decade`. Record viewport, throttling/network settings, cache state, number of runs, and median values so the numbers are comparable across frameworks.
 
 ### Phase 5: Verify comparable output
-- [ ] Run install/build/typecheck commands independently in each project.
-- [ ] Before running any benchmark, start each app's local production server and open `/` plus `/articles/cities-prepare-hotter-denser-decade` in the browser to verify the page looks correct and actually works.
-- [ ] Verify `/` renders the same content hierarchy in each framework.
-- [ ] Confirm only the intended interactive elements hydrate or execute client JavaScript.
-- [ ] Compare generated HTML for semantic parity across frameworks.
-- [ ] Compare `/articles/:slug` behavior and shared layout implementation across frameworks.
-- [ ] Compare generated client assets and record initial-route JavaScript filesystem bytes in `spec/benchmark-methodology.md`.
-- [ ] Record served HTML response bytes for `/` in `spec/benchmark-methodology.md`.
-- [ ] Record cold-cache production build timing numbers in `spec/benchmark-methodology.md`.
-- [ ] Record browser-measured Core Web Vitals for each framework in `spec/benchmark-methodology.md`.
-- [ ] Record qualitative feature matrix notes for data loading, routing, layout reuse, image optimization support, local production server shape, and integration complexity.
-- [ ] Record any framework-specific caveats instead of hiding them behind normalization.
+- [x] Run install/build/typecheck commands independently in each project.
+- [x] Before running any benchmark, start each app's local production server and open `/` plus `/articles/cities-prepare-hotter-denser-decade` in the browser to verify the page looks correct and actually works.
+- [x] Verify `/` renders the same content hierarchy in each framework.
+- [x] Confirm only the intended interactive elements hydrate or execute client JavaScript.
+- [x] Compare generated HTML for semantic parity across frameworks.
+- [x] Compare `/articles/:slug` behavior and shared layout implementation across frameworks.
+- [x] Compare generated client assets and record initial-route JavaScript filesystem bytes in `spec/benchmark-methodology.md`.
+- [x] Record served HTML response bytes for `/` in `spec/benchmark-methodology.md`.
+- [x] Record cold-cache production build timing numbers in `spec/benchmark-methodology.md`.
+- [x] Record browser-measured Core Web Vitals for each framework in `spec/benchmark-methodology.md`.
+- [x] Record qualitative feature matrix notes for data loading, routing, layout reuse, image optimization support, local production server shape, and integration complexity.
+- [x] Record any framework-specific caveats instead of hiding them behind normalization.
+
+Phase 5 notes:
+
+- Production route HTML and browser measurements were collected from local production servers on 2026-07-01 using Node.js `v24.18.0`.
+- The same semantic content hierarchy was verified across all homepages and article pages; extra repeated strings in Next.js and React Router RSC output come from serialized framework payloads rather than extra visible content.
+- Astro rendered the benchmark routes with no external client JavaScript. Hono emitted only the 601-byte hand-written client interaction bundle. React Router, React Router RSC, and Next.js emitted their framework/runtime chunks as listed in `spec/benchmark-methodology.md`.
+- React Router RSC's article route had one failed `oha` pass and logged a generated SSR stream `TypeError: Invalid state: Unable to enqueue` after a successful rerun. The successful rerun is recorded, with the caveat preserved in the methodology.
 
 ## Verification
 - Astro install/build: `cd astro && npm install && npm run build`

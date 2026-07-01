@@ -159,51 +159,15 @@ Recommended baseline:
 - Throttling: no artificial throttling unless all apps use the same setting
 - Runs: at least 3 per route, median reported
 
-## Qualitative Feature Matrix
+## Qualitative Comparison Method
 
-| App | Data loading | Routing model | Layout reuse | Image handling | Production server shape | Integration complexity |
-| --- | --- | --- | --- | --- | --- | --- |
-| Astro | Static local module with async getter called from `.astro` route frontmatter. | File-based pages, dynamic route at `src/pages/articles/[slug].astro`. | `Layout.astro`, `NewsChrome.astro`, and route-level content components. | Static local images served from `public/images`; no numeric optimization comparison. | Node adapter emits `dist/server/entry.mjs`, run with `node`. | Integrated SSR output plus Tailwind through Vite plugin. |
-| Next.js | App Router server components call local async getters. | App Router files, dynamic segment at `app/articles/[slug]/page.tsx`; routes force dynamic SSR. | Root layout plus reusable server/client components under `app/components`. | Uses built-in `next/image`; document as native image optimization path. | `.next` production build, run with `next start`. | Most integrated setup; client interactivity isolated by `"use client"`. |
-| React Router | Route `loader` returns homepage/article data. | Route modules registered through `app/routes.ts`, dynamic route file `articles.$slug.tsx`. | Shared React components under `app/components`. | Static local images from `public/images`; no built-in optimizer in this implementation. | `build/server/index.js`, run with `react-router-serve`. | Explicit loader and route module model with normal client hydration. |
-| React Router RSC | Server components call local async getters; client state isolated in client component file. | Route modules with `ServerComponent`, dynamic route file `articles.$slug.tsx`. | Shared server components plus explicit client controls. | Static local images from `public/images`; no built-in optimizer in this implementation. | RSC build under `build/server`, run with `react-router-serve`. | Experimental RSC build has more generated artifacts and client/server boundaries to inspect. |
-| Hono JSX | Hono handlers call local async getters before server-rendering JSX. | Explicit server routes in `src/index.tsx`, dynamic param at `/articles/:slug`. | Shared JSX functions under `src/components/news.tsx`. | Static local images from `public/images`; manual asset serving. | Vite server bundle at `dist/index.js`, run with `node`. | Manual HTML shell, static serving, Vite manifest, and browser script wiring. |
+Capture qualitative notes for:
 
-## Result Tables
+- Data loading: static module data, async boundary shape, route loader, server component data access, and Hono handler data.
+- Routing: file-based routing, route modules, server routes, nested layouts, dynamic route conventions, route params, and where routing code lives.
+- Layout and templating: how the homepage and article route share header, footer, metadata, and content components.
+- Image handling: built-in optimization, adapter requirement, third-party requirement, or manual/static asset handling.
+- Production server shape: what artifact is generated and which command runs it.
+- Integration complexity: CSS/client asset wiring, server output ergonomics, and framework-specific caveats.
 
-Fill these tables during Phase 5.
-
-### Build Timing
-
-| App | Run 1 real | Run 2 real | Run 3 real | Median real | Notes |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Astro | | | | | |
-| Next.js | | | | | |
-| React Router | | | | | |
-| React Router RSC | | | | | |
-| Hono JSX | | | | | |
-
-### Route Bytes And Timing
-
-| App | Route | HTML bytes | Initial JS bytes | `oha` req/s | Mean latency | P50 | P90 | P99 |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Astro | `/` | | | | | | | |
-| Astro | `/articles/cities-prepare-hotter-denser-decade` | | | | | | | |
-| Next.js | `/` | | | | | | | |
-| Next.js | `/articles/cities-prepare-hotter-denser-decade` | | | | | | | |
-| React Router | `/` | | | | | | | |
-| React Router | `/articles/cities-prepare-hotter-denser-decade` | | | | | | | |
-| React Router RSC | `/` | | | | | | | |
-| React Router RSC | `/articles/cities-prepare-hotter-denser-decade` | | | | | | | |
-| Hono JSX | `/` | | | | | | | |
-| Hono JSX | `/articles/cities-prepare-hotter-denser-decade` | | | | | | | |
-
-### Web Vitals
-
-| App | Route | LCP | CLS | INP | FCP | TTFB | Notes |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Astro | `/` | | | | | | |
-| Next.js | `/` | | | | | | |
-| React Router | `/` | | | | | | |
-| React Router RSC | `/` | | | | | | |
-| Hono JSX | `/` | | | | | | |
+Benchmark results are recorded in the root [readme.md](../readme.md).

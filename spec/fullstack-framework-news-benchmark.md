@@ -369,20 +369,20 @@ serve({ fetch: app.fetch, port: 3000 });
 ```
 
 ### Phase 4: Add benchmark measurement scripts and documentation
-- [ ] Add a `spec/benchmark-methodology.md` document with exact per-project build and start commands.
-- [ ] Record the exact Node.js version used for benchmark collection with `node --version`; expected major version is Node.js v24.
-- [ ] Document initial-route JavaScript measurement as uncompressed filesystem bytes for the JavaScript needed by `/`.
-- [ ] Document served HTML measurement as uncompressed response-body bytes for `/` from the local production server.
-- [ ] Document cold-cache production build time measurement for each framework, including the exact cache/build directories removed before timing.
-- [ ] Document server render timing using the globally installed `oha` or `autocannon` tools.
-- [ ] Document Core Web Vitals measurement using the browser against each app's local production server, capturing at least LCP, CLS, INP where available, and FCP/TTFB as supporting metrics.
-- [ ] Run server render timing only against each framework's production build/start command and generated server artifact, setting `NODE_ENV=production` when the command does not do so itself.
-- [ ] Capture data loading notes in a qualitative feature matrix: static module data, async boundary shape, route loader, server component data access, and Hono handler data.
-- [ ] Capture routing model notes in a qualitative feature matrix: file-based routing, route modules, server routes, nested layouts, dynamic route conventions, route params, and where routing code lives.
-- [ ] Capture layout/templating notes in a qualitative feature matrix based on how the homepage and article route share header, footer, metadata, and content components.
-- [ ] Capture image optimization notes only as qualitative feature comparison: built-in solution, adapter requirement, third-party requirement, or manual/static asset handling.
-- [ ] Capture framework integration complexity notes, including whether Hono's `@hono/vite-dev-server` and `@hono/vite-build` plugins make CSS/client asset wiring and production builds ergonomic enough compared with the integrated framework setups.
-- [ ] Capture local production server notes for each app, including what artifact is generated and which command runs it.
+- [x] Add a `spec/benchmark-methodology.md` document with exact per-project build and start commands.
+- [x] Record the exact Node.js version used for benchmark collection with `node --version`; expected major version is Node.js v24.
+- [x] Document initial-route JavaScript measurement as uncompressed filesystem bytes for the JavaScript needed by `/`.
+- [x] Document served HTML measurement as uncompressed response-body bytes for `/` from the local production server.
+- [x] Document cold-cache production build time measurement for each framework, including the exact cache/build directories removed before timing.
+- [x] Document server render timing using the globally installed `oha` or `autocannon` tools.
+- [x] Document Core Web Vitals measurement using the browser against each app's local production server, capturing at least LCP, CLS, INP where available, and FCP/TTFB as supporting metrics.
+- [x] Run server render timing only against each framework's production build/start command and generated server artifact, setting `NODE_ENV=production` when the command does not do so itself.
+- [x] Capture data loading notes in a qualitative feature matrix: static module data, async boundary shape, route loader, server component data access, and Hono handler data.
+- [x] Capture routing model notes in a qualitative feature matrix: file-based routing, route modules, server routes, nested layouts, dynamic route conventions, route params, and where routing code lives.
+- [x] Capture layout/templating notes in a qualitative feature matrix based on how the homepage and article route share header, footer, metadata, and content components.
+- [x] Capture image optimization notes only as qualitative feature comparison: built-in solution, adapter requirement, third-party requirement, or manual/static asset handling.
+- [x] Capture framework integration complexity notes, including whether Hono's `@hono/vite-dev-server` and `@hono/vite-build` plugins make CSS/client asset wiring and production builds ergonomic enough compared with the integrated framework setups.
+- [x] Capture local production server notes for each app, including what artifact is generated and which command runs it.
 
 Example render timing command shape:
 
